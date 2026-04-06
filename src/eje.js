@@ -82,8 +82,6 @@ if (!eje) {
 
   // --- Modal logic ---
   const modal      = document.getElementById('modal')
-  const backdrop   = document.getElementById('modal-backdrop')
-  const panel      = document.getElementById('modal-panel')
   const bar        = document.getElementById('modal-bar')
   const modalId    = document.getElementById('modal-id')
   const modalTitle = document.getElementById('modal-title')
@@ -138,32 +136,17 @@ if (!eje) {
       }).join('')
     }
 
-    modal.classList.remove('hidden')
-    requestAnimationFrame(() => {
-      backdrop.style.opacity = '1'
-      panel.style.opacity    = '1'
-      panel.style.transform  = 'translateY(0)'
-
-      modalList.querySelectorAll('li').forEach((li) => {
-        requestAnimationFrame(() => {
-          li.style.opacity   = '1'
-          li.style.transform = 'translateY(0)'
-        })
-      })
-    })
-
+    modal.style.display = 'flex'
     document.body.style.overflow = 'hidden'
+
+    modalList.querySelectorAll('li').forEach((li) => {
+      requestAnimationFrame(() => { li.style.opacity = '1' })
+    })
   }
 
   function closeModal() {
-    backdrop.style.opacity = '0'
-    panel.style.opacity    = '0'
-    panel.style.transform  = 'translateY(1rem)'
-
-    setTimeout(() => {
-      modal.classList.add('hidden')
-      document.body.style.overflow = ''
-    }, 300)
+    modal.style.display = 'none'
+    document.body.style.overflow = ''
   }
 
   container.querySelectorAll('button[data-id]').forEach((btn) => {
