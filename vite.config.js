@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         eje: resolve(__dirname, 'eje.html'),
+        objetivo: resolve(__dirname, 'objetivo.html'),
       },
     },
   },
