@@ -9,10 +9,16 @@ if (sessionStorage.getItem('navigating')) {
   overlay.style.opacity = '1'
   overlay.style.pointerEvents = 'all'
 
-  window.addEventListener('load', () => {
+  const reveal = () => {
     overlay.style.opacity = '0'
     setTimeout(() => { overlay.style.pointerEvents = 'none' }, 400)
-  })
+  }
+
+  if (document.readyState === 'complete') {
+    reveal()
+  } else {
+    window.addEventListener('load', reveal, { once: true })
+  }
 }
 
 // Exit: cover screen then navigate
