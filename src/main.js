@@ -10,6 +10,7 @@ const ejeColors = [
   { border: 'border-brand-orange', text: 'text-brand-orange', count: 'bg-brand-orange' },
 ]
 
+const base = import.meta.env.BASE_URL
 const list = document.getElementById('steps-list')
 
 list.innerHTML = ejes.map((eje, i) => {
@@ -20,7 +21,7 @@ list.innerHTML = ejes.map((eje, i) => {
 
   return `
     <a
-      href="/eje.html?eje=${key}"
+      href="${base}eje.html?eje=${key}"
       class="group flex items-center justify-between border-l-4 ${color.border} bg-white/5 hover:bg-white/10 rounded-r-xl px-6 py-5 transition-all"
     >
       <div class="flex items-center gap-4">
