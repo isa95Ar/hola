@@ -10,8 +10,6 @@ const ejeColors = {
   C: { hex: '#FF6853', text: 'text-brand-orange',   border: 'border-brand-orange',   dot: 'bg-brand-orange',   cardBorder: 'hover:border-brand-orange' },
 }
 
-const base = import.meta.env.BASE_URL
-
 // --- Routing ---
 const params = new URLSearchParams(window.location.search)
 const key = params.get('eje')?.toUpperCase()
@@ -66,14 +64,14 @@ if (!eje) {
     <!-- Navigation -->
     <div class="flex justify-between pt-6 border-t border-white/10">
       ${prevEje
-        ? `<a href="${base}eje.html?eje=${prevKey}" class="flex items-center gap-2 text-sm text-brand-gray hover:text-white transition-colors">
+        ? `<a href="./eje.html?eje=${prevKey}" class="flex items-center gap-2 text-sm text-brand-gray hover:text-white transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
             EJE ${prevKey}
            </a>`
         : `<span></span>`
       }
       ${nextEje
-        ? `<a href="${base}eje.html?eje=${nextKey}" class="flex items-center gap-2 text-sm text-brand-gray hover:text-white transition-colors">
+        ? `<a href="./eje.html?eje=${nextKey}" class="flex items-center gap-2 text-sm text-brand-gray hover:text-white transition-colors">
             EJE ${nextKey}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
            </a>`
