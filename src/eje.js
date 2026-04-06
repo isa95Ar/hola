@@ -5,12 +5,11 @@ import plan from './data/plan.json'
 const ejes = plan.plan_de_trabajo_facttic_2026_2027
 
 const ejeColors = {
-  A: { hex: '#F1DA1C', text: 'text-brand-yellow',   border: 'border-brand-yellow',   dot: 'bg-brand-yellow',   cardBorder: 'hover:border-brand-yellow' },
-  B: { hex: '#68DE94', text: 'text-brand-green', border: 'border-brand-green', dot: 'bg-brand-green', cardBorder: 'hover:border-brand-green' },
-  C: { hex: '#FF6853', text: 'text-brand-orange',   border: 'border-brand-orange',   dot: 'bg-brand-orange',   cardBorder: 'hover:border-brand-orange' },
+  A: { text: 'text-brand-yellow', border: 'border-brand-yellow', cardBorder: 'hover:border-brand-yellow' },
+  B: { text: 'text-brand-green',  border: 'border-brand-green',  cardBorder: 'hover:border-brand-green'  },
+  C: { text: 'text-brand-orange', border: 'border-brand-orange', cardBorder: 'hover:border-brand-orange' },
 }
 
-// --- Routing ---
 const params = new URLSearchParams(window.location.search)
 const key = params.get('eje')?.toUpperCase()
 const eje = ejes.find((e) => e.eje.startsWith(`EJE ${key}`))
@@ -28,11 +27,10 @@ if (!eje) {
   const prevKey = prevEje?.eje.split(' ')[1]
   const nextKey = nextEje?.eje.split(' ')[1]
 
-  // --- Render ---
   const objetivosHtml = eje.objetivos.map((obj) => `
-    <button
-      data-id="${obj.id}"
-      class="group w-full text-left flex items-start gap-4 bg-white/5 ${color.cardBorder} border border-white/10 rounded-xl px-5 py-4 transition-all duration-200 cursor-pointer hover:bg-white/8"
+    <a
+      href="./objetivo.html?eje=${key}&obj=${obj.id}"
+      class="group flex items-start gap-4 bg-white/5 ${color.cardBorder} border border-white/10 rounded-xl px-5 py-4 transition-all hover:bg-white/8"
     >
       <span class="mt-0.5 text-xs font-mono font-bold ${color.text} shrink-0 w-6">${obj.id}</span>
       <span class="text-white/90 font-medium leading-snug flex-1">${obj.objetivo}</span>
@@ -44,7 +42,7 @@ if (!eje) {
              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
            </svg>`
       }
-    </button>
+    </a>
   `).join('')
 
   container.innerHTML = `
@@ -79,84 +77,4 @@ if (!eje) {
       }
     </div>
   `
-
-  // --- Modal logic ---
-  const modal      = document.getElementById('modal')
-  const bar        = document.getElementById('modal-bar')
-  const modalId    = document.getElementById('modal-id')
-  const modalTitle = document.getElementById('modal-title')
-  const modalList  = document.getElementById('modal-list')
-  const closeBtn   = document.getElementById('modal-close')
-
-  function openModal(obj) {
-    modalId.textContent    = obj.id
-    modalId.className      = `text-xs font-mono font-bold ${color.text}`
-    modalTitle.textContent = obj.objetivo
-    bar.style.background   = color.hex
-
-    if (!obj.accionables.length) {
-      modalList.innerHTML = `
-        <li class="flex items-center gap-3 py-4 px-1 text-brand-red/80">
-          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
-          </svg>
-          <span class="text-sm">Este objetivo no tiene accionables.</span>
-        </li>
-      `
-    } else {
-      modalList.innerHTML = obj.accionables.map((a, i) => {
-      const plazoBadge = a.plazo
-        ? `<span class="inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-0.5 border" style="color:${color.hex}; border-color:${color.hex}40; background:${color.hex}12">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            ${a.plazo}
-           </span>`
-        : ''
-      const responsableBadge = a.responsable
-        ? `<span class="inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-0.5 bg-white/6 text-brand-gray border border-white/8">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            ${a.responsable}
-           </span>`
-        : ''
-      const badges = plazoBadge || responsableBadge
-        ? `<div class="flex flex-wrap gap-2 pt-1">${plazoBadge}${responsableBadge}</div>`
-        : ''
-      const detalle = a.descripcion_detalle
-        ? `<p class="text-brand-gray text-xs leading-relaxed">${a.descripcion_detalle}</p>`
-        : ''
-      return `
-        <li
-          class="space-y-2 rounded-lg border border-white/8 bg-white/4 p-4 opacity-0 translate-y-2 transition-all duration-300"
-          style="transition-delay: ${i * 70}ms"
-        >
-          <p class="text-white/90 text-sm font-medium leading-snug">${a.nombre}</p>
-          ${detalle}
-          ${badges}
-        </li>
-      `
-      }).join('')
-    }
-
-    modal.style.display = 'flex'
-    document.body.style.overflow = 'hidden'
-
-    modalList.querySelectorAll('li').forEach((li) => {
-      requestAnimationFrame(() => { li.style.opacity = '1' })
-    })
-  }
-
-  function closeModal() {
-    modal.style.display = 'none'
-    document.body.style.overflow = ''
-  }
-
-  container.querySelectorAll('button[data-id]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const obj = eje.objetivos.find((o) => o.id === btn.dataset.id)
-      if (obj) openModal(obj)
-    })
-  })
-
-  closeBtn.addEventListener('click', closeModal)
-  backdrop.addEventListener('click', closeModal)
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal() })
 }

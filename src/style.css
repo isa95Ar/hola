@@ -8,29 +8,6 @@
   font-display: swap;
 }
 
-/* Custom scrollbar */
-#modal-list {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.15) transparent;
-}
-
-#modal-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-#modal-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#modal-list::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.15);
-  border-radius: 9999px;
-}
-
-#modal-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.3);
-}
-
 /* Page transitions */
 body {
   animation: page-in 0.25s ease both;
